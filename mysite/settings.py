@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-#Channels
+# Channels
 
 ASGI_APPLICATION = 'mysite.routing.application'
 
