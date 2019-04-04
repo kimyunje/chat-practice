@@ -2,21 +2,25 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import json
 
+
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
-        self.room_name = self.scope['path']['room_name']
+        # print(self.scope['url_route']['kwargs'])
+        # self.iammethod(1,2,3,4,5, {'key':'value'})
+        self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
-
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
         )
 
         self.accept()
+    
+    # def iammethod(self, *args, **kwargs)
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name
+            self.room_group_name,
             self.channel_name
         )
 
